@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+
+  <!-- cloudinary-config.js -->
+  <script src="../js/cloudinary-config.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="../css/user-profile.css" />
+  <script src="../components/navbar.js" type="module"></script>
+  <script type="module" src="../js/update-navbar-avatar.js"></script>
+   <!-- PWA -->
+    <link rel="manifest" href="../manifest.webmanifest" />
+    <meta name="theme-color" content="#4747D0" />
+    <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="icon" href="../icons/icon-192.png" sizes="192x192">
+    <link rel="icon" href="../icons/icon-256.png" sizes="256x256">
+    <link rel="icon" href="../icons/icon-512.png" sizes="512x512">
+    <meta name="msapplication-TileColor" content="#4747D0">
+    <meta name="msapplication-square150x150logo" content="/icons/icon-256.png">
+    <!-- iOS install support (optional but nice) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="../icons/icon-192.png" />
+  <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- Header like screenshot -->
+  <app-navbar brand="Street Reads" href="/">
+        <a slot="nav" href="/explore">Explore</a>
+        <a slot="nav" href="/favorites">Favorites</a>
+        <button slot="actions" class="pill" onclick="location.href='/add'">Add BookBox</button>
+    </app-navbar>
+
+  <main class="layout">
+    <!-- LEFT: Profile Card -->
+    <section class="card profile-card">
+      <div class="profile-head">
+        <div class="photo-wrap">
+          <img id="profile-photo" class="photo" src="https://res.cloudinary.com/dlsdg0urv/image/upload/v1763164659/tffgil0ykc9fjimshlve.png" alt="Profile photo" />
+          
+        </div>
+
+        <div class="identity">
+          <h2 class="display-name" id="display-name"></h2>
+          <div class="muted small">
+            <span id="number-of-post">10</span> 
+            <p>Reviews</p>
+          </div>
+        </div>
+        <button class="icon-btn edit"><i class="fa-solid fa-pen"></i></button>
+      </div>
+
+      <div class="info-table">
+        <div class="row">
+          <div class="label">Name</div>
+          <div class="value display-name"></div>
+        </div>
+        <div class="row">
+          <div class="label">Email</div>
+          <div class="value" id="email"></div>
+        </div>
+        <div class="row">
+          <div class="label">Location</div>
+          <div class="value" id="current-location"><br /></div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="privacy">
+        <h3 class="section-title">Privacy &amp; Security</h3>
+
+        <div class="row">
+          <div class="label">Password</div>
+          <div class="value password-wrap">
+            <span id="password">*******</span>
+            <button class="icon-btn" id="toggle-eye" aria-label="Toggle password">
+              <i class="fa-solid fa-eye"></i>
+              <i class="fa-solid fa-eye-slash"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="label">Delete Account</div>
+          <div class="value">
+            <button class="icon-btn danger" title="Delete" id="trash-icon">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="logout">
+        <button class="btn" id="log-out-btn">Log out</button>
+      </div>
+    </section>
+
+    <!-- RIGHT: Favourites -->
+    <section class="card panel">
+      <h2 class="panel-title">My Favourite Book Boxes</h2>
+
+      <!-- scroll area of favourite cards, your JS fills #favorite-box-info -->
+      <div class="grid-scroll" id="favorite-box-info">
+        <!-- JS inserts .mini-card blocks here -->
+        <!-- Example (kept for reference):
+        <div class="mini-card">
+          <div class="thumb"></div>
+          <div class="meta">
+            <div class="name">Book Box 1</div>
+            <div class="muted small"><i class="fa-solid fa-location-dot"></i>&nbsp;Location</div>
+          </div>
+        </div>
+        -->
+      </div>
+    </section>
+
+    <!-- RIGHT: Contributions -->
+    <section class="card panel">
+      <h2 class="panel-title">My Contributions</h2>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="big" id="added-box">14</div>
+          <div class="muted">Added Boxes</div>
+        </div>
+        <div class="stat">
+          <div class="big" id="review-number">10</div>
+          <div class="muted">Reviews</div>
+        </div>
+      </div>
+
+      <div class="divider2"></div> 
+
+      <h3 class="sub-title">Added Boxes</h3>
+      <!-- scroll area; your JS fills #added-box-info -->
+      <div class="grid-scroll" id="added-box-info">
+        <!-- JS inserts .mini-card blocks (see CSS below) -->
+      </div>
+    </section>
+  </main>
+
+  <!-- modal window for profile edit -->
+
+  <div id="editModal" class="editModal">
+    <div class="modalContent">
+      <i class="fa-solid fa-xmark"></i>
+      <h2 class="modalTitle">Edit Profile</h2>
+      <div class="photo-wrap">
+        <img id="modalPhoto" class="modalPhoto" src="https://res.cloudinary.com/dlsdg0urv/image/upload/v1763164659/tffgil0ykc9fjimshlve.png" alt="Profile photo" />
+        <i class="fa-solid fa-camera"></i>
+      </div>
+
+      <form id="editProfileForm" class="editProfileForm" method="post">
+        <div>
+          <label for="editName">Name</label>
+          <input type="text" id="editName">
+        </div>
+        <div>
+          <label for="editEmail">Email</label>
+          <input type="text" id="editEmail">
+        </div>
+        <div>
+          <label for="editLocation">Locatioin</label>
+          <input type="text" id="editLocation">
+        </div>
+        <h3>Privacy & Security</h3>
+          <div class="password-row">
+            <label for="editPassword">Password</label>
+            <input id="editPassword" type="password" />
+            <button id="editPwdToggle" type="button" aria-pressed="false" aria-label="Show/Hide password">
+              <i id="editPwdEye" class="fa-solid fa-eye" aria-hidden="true"></i>
+              <i id="editPwdEyeOff" class="fa-solid fa-eye-slash" aria-hidden="true"></i>
+            </button>
+          </div>
+
+        <button type="submit" class="saveBtn" id="saveBtn">Save</button>
+      </form>
+
+    </div>
+  </div>
+
+  <script type="module" src="../js/user-profile.js"></script>
+</body>
+
+</html>

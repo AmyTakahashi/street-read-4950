@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/7e5d9f596b.js" crossorigin="anonymous" defer></script>
+    <link rel="manifest" href="../manifest.webmanifest" />
+    <meta name="theme-color" content="#4747D0" />
+    <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="icon" href="../icons/icon-192.png" sizes="192x192">
+    <link rel="icon" href="../icons/icon-256.png" sizes="256x256">
+    <link rel="icon" href="../icons/icon-512.png" sizes="512x512">
+    <meta name="msapplication-TileColor" content="#4747D0">
+    <meta name="msapplication-square150x150logo" content="/icons/icon-256.png">
+    <!-- iOS install support (optional but nice) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="../icons/icon-192.png" />
+
+    <!-- TomTom Maps SDK -->
+    <link rel="stylesheet" href="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps.css">
+    <script src="https://api.tomtom.com/maps-sdk-for-web/cdn/6.x/6.25.0/maps/maps-web.min.js" defer></script>
+
+    <!-- JS -->
+    <!-- Cloudinary Image Upload -->
+    <script src="../js/cloudinary-config.js"></script>
+    <script src="../js/image-upload.js"></script>
+    <script type="module" src="../js/homepage.js" defer></script>
+    <script src="../components/navbar.js" type="module"></script>
+    <script type="module" src="../js/update-navbar-avatar.js"></script>
+
+    <!-- Google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agbalumo&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+     <link rel="stylesheet" href="../css/homepage.css">
+    <title>Homepage</title>
+</head>
+<body>
+    <!-- <header>
+        <h1>Street Reads</h1>
+        <div class="header-button">
+            <a href="/pages/user-profile.html">
+                 <img src="https://picsum.photos/100/100?random=$" alt="User profile">
+            </a>
+        </div>
+    </header> --> 
+<app-navbar brand="Street Reads" href="/">
+</app-navbar>
+
+    <main>
+        <h2>Hello <span id="display-name"></span>!</h2>
+        <div class="searchbar">
+            <p>Discover little Free libraries around you</p>
+            <div class="search-field">
+                <div class="search">
+                    <input id="search-text" class="search-text" type="text" placeholder="Search by address, street">
+                    <button id="searchBtn" class="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button id="filterBtn" class="filterBtn"><i class="fa-solid fa-filter outline-filter"></i>Filter</button>
+                    
+                    <!-- filter feild - moved inside .search -->
+                    <div id="filterFeild" class="filter-feild">
+                        <div class="filter-top">
+                            <h3>Filters</h3>
+                            <!-- <div class="filter-top-buttons">
+                                <button class="select-all" id="selectAll">Select all</button>
+                                <button class="deselect-all" id="deselectAll">Deselect all</button>
+                            </div> -->
+                        </div>
+
+                        <div class="check-list">
+                            <label for="recently-updated">
+                                <input type="checkbox" name="filters" class="filters" value="recently-updated" id="recently-updated">
+                                Recently updated
+                            </label>
+                            <label for="nearby">
+                                <input type="checkbox" name="filters" class="filters" value="nearby" id="nearby">
+                                Nearby
+                            </label>
+                            <label for="most-popular">
+                                <input type="checkbox" name="filters" class="filters" value="most-popular" id="most-popular">
+                                Highest Rated
+                            </label>
+                            <label for="most-liked">
+                                <input type="checkbox" name="filters" class="filters" value="most-liked" id="most-liked">
+                                Most Favorited
+                            </label>
+                            <label for="most-commented">
+                                <input type="checkbox" name="filters" class="filters" value="most-commented" id="most-commented">
+                                Most Commented
+                            </label>
+                        </div>
+                        
+                        <div class="filter-bottom-buttons">
+                            <button class="close-filter" id="closeFilter">Close</button>
+                            <button class="update-filter" id="updateFilter">Update</button>
+                        </div>
+                    </div>
+                </div>
+
+                
+                 <div class="addBox" id="addBox">
+                    <button type="submit">Add BookBox</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="map">
+            <div id="map" class="map"></div>
+        </div>
+
+<!-- Backdrop (click to close) -->
+<div id="modalBackdrop" class="sr-backdrop" hidden></div>
+
+<!-- Add Book Box Modal -->
+<div id="addBookbox" class="sr-modal" role="dialog" aria-modal="true" aria-labelledby="srModalTitle" hidden>
+    <div class="sr-card">
+        <!-- Header -->
+        <div class="sr-card-head">
+            <h3 id="srModalTitle">Add a Book Box</h3>
+            <button class="sr-close" id="srClose" aria-label="Close modal">&times;</button>
+        </div>
+
+        <!-- Body -->
+        <div class="sr-card-body">
+            <label class="sr-field">
+                <span class="sr-label">BookBox Name</span>
+                <input type="text" id="boxName" class="sr-input" placeholder="e.g., Cedar Grove Little Library">
+            </label>
+
+            <label class="sr-field">
+                <span class="sr-label">Address</span>
+                <div class="sr-input-row">
+                    <input type="text" name="address" id="address" list="addressSuggestions" class="sr-input" placeholder="Type an address or use my location">
+                    <datalist id="addressSuggestions"></datalist>
+                    <button type="button" id="useLocation" class="sr-pill">
+                        <i class="fa-solid fa-location-arrow"></i> Use my location
+                    </button>
+                </div>
+            </label>
+
+            <div class="sr-field">
+                <span class="sr-label">Pictures</span>
+
+                <!-- Upload from files (multi) -->
+                <input type="file" id="picture" accept="image/*" multiple>
+
+                <!-- Open the device camera in-browser (works on laptop/desktop over HTTPS or localhost) -->
+                <button type="button" id="srOpenCamera" class="sr-pill" style="margin-top:8px;">
+                    <i class="fa-solid fa-camera"></i> Use device camera
+                </button>
+
+                <!-- Previews + chips -->
+                <div id="srPreview" class="sr-preview"></div>
+                <div id="srChips" class="sr-chips"></div>
+
+                <!-- Camera panel -->
+                <div id="srCameraPanel" class="sr-camera" hidden>
+                    <div class="sr-camera-bar">
+                        <button type="button" id="srCloseCam" class="sr-ghost">&times; Close</button>
+                    </div>
+                    <div class="sr-camera-view">
+                        <video id="srVideo" playsinline autoplay muted></video>
+                    </div>
+                    <div class="sr-camera-actions">
+                        <button type="button" id="srSnap" class="sr-primary">
+                            <i class="fa-solid fa-circle-dot"></i> Capture
+                        </button>
+                    </div>
+                    <canvas id="srCanvas" hidden></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="sr-card-foot">
+            <button class="cancel" id="cancel">Cancel</button>
+            <button class="add-bookbox-submit" id="addBookboxSubmit">Add Box</button>
+        </div>
+    </div>
+</div>
+    </main>
+    
+</body>
+</html>

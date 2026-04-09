@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Street Reads</title>
+    <link rel="stylesheet" href="../css/register.css">
+    <link rel="manifest" href="../manifest.webmanifest" />
+    <meta name="theme-color" content="#4747D0" />
+    <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="icon" href="../icons/icon-192.png" sizes="192x192">
+    <link rel="icon" href="../icons/icon-256.png" sizes="256x256">
+    <link rel="icon" href="../icons/icon-512.png" sizes="512x512">
+    <meta name="msapplication-TileColor" content="#4747D0">
+    <meta name="msapplication-square150x150logo" content="/icons/icon-256.png">
+    <!-- iOS install support (optional but nice) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="../icons/icon-192.png" />
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="/js/firebase-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo">
+                <div class="logo-icon" aria-hidden="true"></div>
+                <span class="logo-text">Street Reads</span>
+            </div>
+            <div class="welcome-text">Welcome</div>
+        </div>
+        <form id="registerForm" class="register-form" novalidate>
+            <div class="form-group">
+                <label for="firstName">Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="Country">
+            </div>
+            
+            <button type="submit" class="submit-btn">Sign Up</button>
+        </form>
+        
+        <div class="form-footer">
+            <span class="footer-text-center">Already have an account? <a href="login.html" class="footer-link-center">Login</a></span>
+        </div>
+        
+        <div id="message" class="message"></div>
+    </div>
+    
+    <script src="/js/register.js"></script>
+</body>
+</html>

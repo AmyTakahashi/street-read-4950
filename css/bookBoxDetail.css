@@ -1,0 +1,695 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+main {
+    min-height: calc(100vh - 80px);
+
+}
+
+body {
+    background: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #4747D0;
+    color: #ffffff;
+}
+
+.header-button {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-button img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    padding: 2rem;
+    /* max-width: 800px; */
+    background: #fff;
+    border-radius: 8px;
+
+    /* Use flex layout so left/right columns can match heights and allow
+       bottom-alignment of inner elements (like .reviewContainer and #chatContainer). */
+    display: flex;
+    align-items: stretch;
+    gap: 3rem;
+
+    /* On very small screens you may want columns to stack — allow wrapping. */
+    flex-wrap: wrap;
+}
+
+.left {
+    flex: 1;
+    /* 左側を広めに */
+}
+
+.right {
+    flex: 1;
+    /* 右側を左の半分くらいに */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.left,
+.right {
+    display: flex;
+    flex-direction: column;
+    /* Allow these flex children to shrink; avoid forcing a large fixed min-height.
+       Setting min-height: 0 is important so overflow works inside flex items. */
+    min-height: 0;
+    padding: 1rem;
+    /* 余白を等しく */
+}
+
+/* BOOK BOX */
+#boxName {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 32px;
+}
+
+.boxDetail {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    gap: 0.5rem;
+    /* max-width: 800px; */
+}
+
+.fav {
+    display: flex;
+    align-items: end;
+}
+
+.fav button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* .fav button:hover {
+    color: #4747D0;
+} */
+
+.fa-heart {
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.fa-solid.fa-heart {
+    color: #4747D0;
+    transform: scale(1.1);
+}
+
+
+/* IMAGE */
+.images {
+    display: grid;
+    grid-template-columns: 4fr repeat(13, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 15px;
+    margin: 1rem 0;
+    /* align-items: start; */
+}
+
+.images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.images img:nth-of-type(1) {
+    grid-column: 1 / 6;
+    grid-row: 1 / 5;
+}
+
+.images img:nth-of-type(2) {
+    grid-column: 7 / 11;
+    grid-row: 1 / 3;
+}
+
+.images img:nth-of-type(3) {
+    grid-column: 11 / 15;
+    grid-row: 1 / 3;
+}
+
+.images img:nth-of-type(4),
+.images img:nth-of-type(8) {
+    grid-column: 7 / 9;
+    grid-row: auto;
+}
+
+.images img:nth-of-type(5),
+.images img:nth-of-type(9) {
+    grid-column: 9 / 11;
+    grid-row: auto;
+}
+
+.images img:nth-of-type(6),
+.images img:nth-of-type(10) {
+    grid-column: 11 / 13;
+    grid-row: auto;
+}
+
+.images img:nth-of-type(7),
+.images img:nth-of-type(11) {
+    grid-column: 13 / 15;
+    grid-row: auto;
+}
+
+@media screen and (max-width: 900px) {
+    .images img:nth-of-type(4) {
+        grid-column: 7 / 11;
+        grid-row: 3 / 5;
+    }
+        .images img:nth-of-type(5) {
+        grid-column: 11 / 15;
+        grid-row: 3 / 5;
+    }
+
+    .images img:nth-of-type(n+6) {
+        display: none;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .popup img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 8px;
+        object-fit: contain;
+    }
+
+    .popup .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 40px;
+        color: white;
+        cursor: pointer;
+    }
+
+}
+
+/* RATE */
+.rateBox {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+}
+
+/* .rateBox p {
+    margin-right: 0.5rem;
+    color: #4747D0;
+} */
+
+.rateContainer {
+    display: flex;
+    /* align-items: center; */
+    gap: 1rem;
+}
+
+#rating .fa-star {
+    color: white;
+    -webkit-text-stroke: 3px #4747D0;
+}
+
+.stars {
+    font-size: 1.3rem;
+    color: #e6e6e6;
+    padding: .5rem 1rem;
+    border: dashed 2px #e6e6e6;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.stars .active {
+    color: #4747D0 !important;
+}
+
+/* POPUP */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 600px;
+    padding: 32px;
+    min-height: 250px;
+    z-index: 2;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+}
+
+.modal .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.modal input {
+    background-color: #EBF2FF;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 16px;
+    height: 2rem;
+}
+
+.modal textarea {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    height: 8rem;
+    padding: 16px;
+    background-color: #EBF2FF;
+}
+
+.form-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.modal label {
+    font-size: 18px;
+    color: black;
+    margin: 0.4rem 0 0.2rem;
+}
+
+.modal .stars {
+
+    border: none;
+    text-align: center;
+    margin-top: 20px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-weight: 600;
+}
+
+.btnContainer {
+    display: flex;
+    justify-content: right;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    height: 56px;
+    font-weight: 700;
+    background-color: #4747D0;
+    color: white;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1em;
+}
+
+/* .btn-open {
+    position: absolute;
+    bottom: 150px;
+} */
+
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transform: none;
+    padding: 0.5rem 0.7rem;
+    background: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .8);
+    backdrop-filter: blur(3px);
+    z-index: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+/* REVIEW BOX*/
+.p {
+    margin-top: 30px;
+    font-weight: bold;
+
+}
+
+.reviewContainer {
+    /* Let the review box sit at the bottom of the left column by using
+       margin-top:auto. Make it scrollable with a reasonable max-height so
+       it stays responsive across screen sizes. */
+    margin-top: auto;
+    max-height: 40vh;
+    /* responsive cap; adjust if you prefer a fixed px value */
+    overflow-y: auto;
+    padding: 40px;
+    border: solid 2px lavender;
+    border-radius: 10px;
+    background: #f8fafc;
+
+    min-height: 0;
+    scrollbar-color: #888 transparent;
+}
+
+.review {
+    margin-bottom: 1rem;
+}
+
+.review strong {
+    padding-bottom: 0.5rem;
+}
+
+.reviewItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+/* average stars */
+#rateAvg i {
+    font-size: 1.4rem;
+    color: #4747D0;
+}
+
+#rateAvg i.fa-solid {
+    color: #4747D0;
+}
+
+/* #rateAvg i.fa-regular {
+    color: #ccc;
+} */
+
+#rateAvg {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* align-items: center; */
+    gap: 4px;
+}
+
+#rateAvg .starsAvg {
+    display: flex;
+    gap: 4px;
+    font-size: 1.4rem;
+}
+
+#rateAvg .rating-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#rateAvg span {
+    color: #4747D0;
+    font-weight: 500;
+    /* margin-left: 4px; */
+}
+
+#rateAvg p {
+    color: #4747D0;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.rateStars {
+    background-image: repeating-linear-gradient(0deg, #333333, #333333 10px, transparent 10px, transparent 22px, #333333 22px), repeating-linear-gradient(90deg, #333333, #333333 10px, transparent 10px, transparent 22px, #333333 22px), repeating-linear-gradient(180deg, #333333, #333333 10px, transparent 10px, transparent 22px, #333333 22px), repeating-linear-gradient(270deg, #333333, #333333 10px, transparent 10px, transparent 22px, #333333 22px);
+    background-size: 2px 100%, 100% 2px, 2px 100%, 100% 2px;
+    background-position: 0 0, 0 0, 100% 0, 0 100%;
+    background-repeat: no-repeat;
+
+    border-radius: 6px;
+    /* ← 角丸 */
+    background-clip: padding-box;
+    /* ← 背景が角丸の外に出ないように */
+    overflow: hidden;
+    /* ← 内側の要素も角に合わせて切る */
+
+    padding: 10px 24px;
+}
+
+/* CHAT */
+#chatContainer {
+    display: flex;
+    flex-direction: column;
+
+    /* Use flex so the chat container fills the right column height set by
+       the parent (.right). This lets its bottom align with .reviewContainer
+       (which uses margin-top:auto) across widths while keeping the top
+       visually in the same place. */
+    flex: 1 1 auto;
+    height: 100%;
+    min-height: 0;
+    max-height: 135vh;
+    /* allow internal scrolling inside this flex child */
+    overflow-y: auto;
+
+    padding: 30px;
+    border: solid 2px lavender;
+    border-radius: 10px;
+
+    /* min-height: 0; */
+    scrollbar-color: #888 transparent;
+}
+
+/* For very wide screens ensure both columns are exactly the same height so
+   the bottom-aligned boxes (.reviewContainer and #chatContainer) line up.
+   We switch to grid at large widths to guarantee equal row height. */
+@media (min-width: 1500px) {
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: stretch;
+    }
+
+    /* Keep left/right as flex columns so margin-top:auto inside works. */
+    .left,
+    .right {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+}
+
+/* .userContainer {
+    display: flex;
+    flex-direction: row;
+} */
+
+
+.commentItem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+#messages {
+    flex: 1 1 auto;
+    overflow-y: scroll;
+    min-height: 0;
+    -webkit-overflow-scrolling: touch;
+    /* smooth scrolling on iOS */
+
+}
+
+.userInfo {
+    display: flex;
+    justify-content: space-between;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.who,
+.when {
+    font-weight: bold;
+}
+
+.perUser {
+    background-color: #EBF2FF;
+    border-radius: 10px;
+    padding: 10px;
+
+
+    flex: 1;
+}
+
+#chatInputArea {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 8px;
+    border-top: 1px solid #ddd;
+}
+
+#chatInput {
+    flex: 1;
+    height: 44px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    padding: 0 12px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.comment-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* ボタン共通 */
+#chatInputArea button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.2s;
+}
+
+@media (max-width: 900px) {
+    main {
+        padding: 1rem;
+        gap: 1rem;
+        flex-direction: column;
+    }
+
+    .left,
+    .right {
+        padding: 0;
+    }
+
+    #boxName {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    .fav button {
+        font-size: 15px;
+    }
+
+    .btn {
+        width: 109px;
+        height: 40px;
+        font-size: 12px;
+        padding: 12px;
+    }
+
+    .rateStars {
+        width: 121px;
+        height: 40px;
+        padding: 3px;
+    }
+
+    #rateAvg i {
+        font-size: 20px;
+    }
+
+    .reviewContainer {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        max-height: 20vh;
+    }
+
+    .review strong {
+        font-size: 15px;
+    }
+
+    .reviewContainer p {
+        font-size: 12px;
+    }
+
+    #chatContainer {
+        margin-top: 1rem;
+        padding: 1rem;
+        max-height: 40vh;
+    }
+
+    #chatInput {
+        width: 249px;
+        height: 44px;
+    }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="manifest" href="../manifest.webmanifest" />
+    <meta name="theme-color" content="#4747D0" />
+    <link rel="manifest" href="../manifest.webmanifest">
+    <link rel="icon" href="../icons/icon-192.png" sizes="192x192">
+    <link rel="icon" href="../icons/icon-256.png" sizes="256x256">
+    <link rel="icon" href="../icons/icon-512.png" sizes="512x512">
+    <meta name="msapplication-TileColor" content="#4747D0">
+    <meta name="msapplication-square150x150logo" content="/icons/icon-256.png">
+    <!-- iOS install support (optional but nice) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="../icons/icon-192.png" />
+        <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="/js/firebase-config.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <div class="logo">
+                <div class="logo-icon" aria-hidden="true"></div>
+                <span class="logo-text">Street Reads</span>
+            </div>
+        </div>
+        
+        <form id="loginForm" class="login-form" novalidate>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Login</button>
+        </form>
+        
+        <div class="form-footer">
+            <a href="#" id="forgotPassword" class="footer-link-left">Forgot Password?</a>
+            <span class="footer-text-center">Don't have an account? <a href="register.html" class="footer-link-center">Sign up</a></span>
+        </div>
+        
+        <div id="message" class="message"></div>
+    </div>
+    
+    <script src="/js/login.js"></script>
+</body>
+</html>
