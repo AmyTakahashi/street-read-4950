@@ -100,14 +100,14 @@ function loginUser(data) {
             // JWT
             const token = await user.getIdToken();
 
-            fetch("http://localhost:3000/api/protected", {
+            const res = await fetch("https://75.101.231.9/api/protected", {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            })
+            });
 
-            const data = await res.json();
-            console.log("API response:", data);
+            const apiData = await res.json();
+            console.log("API response:", apiData);
 
             localStorage.setItem("token", token);
 
