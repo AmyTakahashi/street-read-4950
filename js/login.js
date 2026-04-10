@@ -1,24 +1,24 @@
 // Login form with Firebase Authentication
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('loginForm');
     const messageDiv = document.getElementById('message');
     const forgotPasswordLink = document.getElementById('forgotPassword');
-    
+
     // Form submission handler
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         // Clear previous messages
         messageDiv.innerHTML = '';
         messageDiv.className = 'message';
-        
+
         // Get form data
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
-        
+
         // Validate form
         const validation = validateLoginForm(data);
-        
+
         if (validation.isValid) {
             // Login user with Firebase
             loginUser(data);
@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
             showMessage(validation.message, 'error');
         }
     });
-    
+
     // Email validation
     const email = document.getElementById('email');
-    email.addEventListener('input', function() {
+    email.addEventListener('input', function () {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (email.value && !emailRegex.test(email.value)) {
             email.setCustomValidity('Please enter a valid email address');
@@ -37,17 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
             email.setCustomValidity('');
         }
     });
-    
+
     // Forgot password handler
-    forgotPasswordLink.addEventListener('click', function(e) {
+    forgotPasswordLink.addEventListener('click', function (e) {
         e.preventDefault();
         const email = document.getElementById('email').value;
-        
+
         if (!email) {
             showMessage('Please enter your email address first.', 'error');
             return;
         }
-        
+
         sendPasswordReset(email);
     });
 });
@@ -55,18 +55,18 @@ document.addEventListener('DOMContentLoaded', function() {
 // Form validation function
 function validateLoginForm(data) {
     const errors = [];
-    
+
     // Check required fields
     if (!data.email.trim()) {
         errors.push('Email is required');
     } else if (!isValidEmail(data.email)) {
         errors.push('Please enter a valid email address');
     }
-    
+
     if (!data.password) {
         errors.push('Password is required');
     }
-    
+
     return {
         isValid: errors.length === 0,
         message: errors.length > 0 ? errors.join('. ') : ''
@@ -82,22 +82,38 @@ function isValidEmail(email) {
 // Login user with Firebase
 function loginUser(data) {
     showMessage('Logging in...', 'success');
-    
+
     // Check if auth is available
     if (!auth) {
         showMessage('Firebase authentication is not available. Please check your configuration.', 'error');
         return;
     }
-    
+
     console.log('Attempting to login with email:', data.email);
-    
+
     // Sign in with Firebase Auth
     auth.signInWithEmailAndPassword(data.email, data.password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
             // User signed in successfully
             const user = userCredential.user;
+
+            // JWT
+            const token = await user.getIdToken();
+
+            fetch("http://localhost:3000/api/protected", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            const data = await res.json();
+            console.log("API response:", data);
+
+            localStorage.setItem("token", token);
+
+
             showMessage(`Welcome back, ${user.displayName || user.email}! Redirecting...`, 'success');
-            
+
             // Redirect to dashboard or main page after 2 seconds
             setTimeout(() => {
                 window.location.href = '../pages/homepage.html';
@@ -107,7 +123,7 @@ function loginUser(data) {
         .catch((error) => {
             // Handle errors
             let errorMessage = 'Login failed. Please try again.';
-            
+
             switch (error.code) {
                 case 'auth/invalid-credential':
                     errorMessage = 'Invalid credentials';
@@ -133,7 +149,7 @@ function loginUser(data) {
                 default:
                     errorMessage = error.message;
             }
-            
+
             showMessage(errorMessage, 'error');
         });
 }
@@ -146,7 +162,7 @@ function sendPasswordReset(email) {
         })
         .catch((error) => {
             let errorMessage = 'Failed to send password reset email.';
-            
+
             switch (error.code) {
                 case 'auth/user-not-found':
                     errorMessage = 'No account found with this email address.';
@@ -157,7 +173,7 @@ function sendPasswordReset(email) {
                 default:
                     errorMessage = error.message;
             }
-            
+
             showMessage(errorMessage, 'error');
         });
 }
@@ -167,7 +183,7 @@ function showMessage(message, type) {
     const messageDiv = document.getElementById('message');
     messageDiv.innerHTML = message;
     messageDiv.className = `message ${type}`;
-    
+
     // Auto-hide success messages after 5 seconds
     if (type === 'success') {
         setTimeout(() => {
@@ -182,7 +198,7 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         // User is already logged in, show welcome message
         showMessage(`Welcome back, ${user.displayName || user.email}!`, 'success');
-        
+
         // Redirect to dashboard after 2 seconds
         setTimeout(() => {
             // window.location.href = 'dashboard.html'; // Uncomment when you have a dashboard
